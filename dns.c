@@ -350,8 +350,9 @@ dns_t *dns_create_from_packet(uint8_t *packet, uint32_t length)
 					dns->answers[i].answer->NBSTAT.names[j].name_flags = buffer_read_next_int16(buffer);
 				}
 
+				/* My redact - buffer_read_next_bytes(buffer, tmp, 16) = read from buffer 16 byte, and buffer_read_next_int16(buffer) = read from buffer 2 byte; 16+2 = 18*/
 				/* Read the rest of the data -- for a bit of safety so we don't read too far, do some math to figure out exactly what's left. */
-				buffer_read_next_bytes(buffer, dns->answers[i].answer->NBSTAT.stats, MIN(64, size - 1 - (dns->answers[i].answer->NBSTAT.name_count * 16)));
+				buffer_read_next_bytes(buffer, dns->answers[i].answer->NBSTAT.stats, MIN(64, size - 1 - (dns->answers[i].answer->NBSTAT.name_count * 18)));
 			}
 			else
 			{
@@ -461,8 +462,9 @@ dns_t *dns_create_from_packet(uint8_t *packet, uint32_t length)
 					dns->additionals[i].additional->NBSTAT.names[j].name_flags = buffer_read_next_int16(buffer);
 				}
 
+				/* My redact - buffer_read_next_bytes(buffer, tmp, 16) = read from buffer 16 byte, and buffer_read_next_int16(buffer) = read from buffer 2 byte; 16+2 = 18*/
 				/* Read the rest of the data -- for a bit of safety so we don't read too far, do some math to figure out exactly what's left. */
-				buffer_read_next_bytes(buffer, dns->additionals[i].additional->NBSTAT.stats, MIN(64, size - 1 - (dns->additionals[i].additional->NBSTAT.name_count * 16)));
+				buffer_read_next_bytes(buffer, dns->additionals[i].additional->NBSTAT.stats, MIN(64, size - 1 - (dns->additionals[i].additional->NBSTAT.name_count * 18)));
 			}
 			else
 			{
